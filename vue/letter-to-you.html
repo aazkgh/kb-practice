@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>편지 배달</title>
+</head>
+<body>
+    <main id="app">
+        <h3>{{name === '' ? '당신' : name}}에게 보내는 편지</h3>
+        <input v-model='name' placeholder="이름을 입력하세요" />    
+    </main>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    name: ''
+                }
+            },
+            methods: {
+                
+            },
+		}).mount('#app');
+    </script>
+    </body>
+</html>

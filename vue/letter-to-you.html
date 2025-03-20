@@ -9,6 +9,11 @@
     <main id="app">
         <h3>{{name === '' ? '당신' : name}}에게 보내는 편지</h3>
         <input v-model='name' placeholder="이름을 입력하세요" />    
+        <input v-model='letter' placeholder="하고 싶은 말을 입력하세요" />
+        <p v-html="letter"></p>
+        <ul v-for="scene in memory" :key="scene">
+            <li>{{scene}}</li>
+        </ul>    
     </main>
     <script src="https://unpkg.com/vue@3"></script>
     <script>
@@ -17,11 +22,16 @@
         createApp({
             data() {
                 return {
-                    name: ''
+                    name: '',
+                    letter:'',
+                    memory:[
+                        '처음 만난 날',
+                        '도시락 싸먹던 날',
+                        '집가고 싶은 나날',
+                        '짜장면 피크닉',
+                        '어쩌구저쩌구'
+                    ]
                 }
-            },
-            methods: {
-                
             },
 		}).mount('#app');
     </script>

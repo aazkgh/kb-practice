@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet HealthCare</title>
+</head>
+<body>
+    <main id="app">
+        <!-- 펫 등록 -->
+        <div>
+            <input v-model="newPet.name" placeholder="펫 이름" />
+            <input v-model="newPet.species" placeholder="펫 종" />
+            <button @click="registerPet">Register Pet</button>
+        </div>
+    
+        <!-- 펫 등록 정보 -->
+        <div v-for="pet in pets" :key="pet.name">
+            <h2>{{ pet.name }} ({{ pet.species }})</h2>
+            <p>Vaccinations: {{ pet.vaccinations.join(', ') || 'None' }}</p>
+            <p>Last Health Check: {{ formatDate(pet.healthCheckDate) }}</p>
+            <p v-if="pet.alreadyWarned">건강검진 받음!</p>
+        
+            <div>
+                <input v-model="vaccinationInput" placeholder="예방제 이름" />
+                <button @click="addVaccination(pet)">예방제 추가</button>
+                <button @click="updateHealthCheckDate(pet)">건강검진 날짜 업데이트</button>
+                <button @click="checkHealthStatus(pet)" >건강 상태 검사</button>
+            </div>
+    
+            <div v-if="petLogs[pet.name]">
+                <p v-for="log in petLogs[pet.name]" :key="log">{{ log }}</p>
+            </div>
+        </div>
+    </main>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { createApp, reactive, ref } = Vue;
+        
+        createApp({
+            /* data() (옵션 API) - setup() (Composition API) 
+			컴포넌트 상태(state) 정의 - 컴포넌트 상태 + 로직 정의
+			this로 접근 - 사용 불가 (this 없음)
+			Vue 내부가 자동 감지 - ref, reactive 직접 사용해야 함
+            */
+            setup() {
+				class Pet {
+					constructor(name, species) {
+						this.name = name;
+						this.species = species;
+						this.vaccinations = [];
+						this.healthCheckDate = new Date();
+						this.alreadyWarned = false;
+					}
+				}
+    
+				const pets = reactive([]);
+				const petLogs = reactive({});
+				const newPet = reactive({ name: '', species: '' });
+				const vaccinationInput = ref('');
+    
+				function registerPet() {
+					const pet = new Pet(newPet.name, newPet.species);
+					pets.push(pet);
+					petLogs[pet.name] = [`등록: ${pet.name} (${pet.species})`];
+					newPet.name = '';
+					newPet.species = '';
+				}
+    
+				function addVaccination(pet) {
+					if (pet.vaccinations.includes(vaccinationInput.value)) {
+						alert('중복등록 불가!');
+					} else {
+						pet.vaccinations.push(vaccinationInput.value);
+						petLogs[pet.name].push(`+ 예방제: ${vaccinationInput.value}`);
+					}
+					vaccinationInput.value = '';
+				}
+    
+				function updateHealthCheckDate(pet) {
+					pet.healthCheckDate = new Date();
+					pet.alreadyWarned = false;
+					petLogs[pet.name].push(`건강검진 날짜 업데이트`);
+				}
+			
+				function checkHealthStatus(pet) {
+					const interval = setInterval(() => {
+						const now = new Date();
+						const diffYear = (now - new Date(pet.healthCheckDate)) / (1000 * 60 * 60 * 24 * 365);
+						if (diffYear >= 1 && !pet.alreadyWarned) {
+							petLogs[pet.name].push('건강검진 경고: 1년 지남');
+							pet.alreadyWarned = true;
+						}
+					}, 3000);
+			
+					setTimeout(() => {
+						clearInterval(interval);
+						petLogs[pet.name].push('[검사 종료]');
+					}, 10000);
+				}
+			
+				function formatDate(date) {
+					return new Date(date).toLocaleDateString();
+				}
+			
+				// setup에서 return 해야 template에서 사용 가능
+				return {
+					pets,
+					petLogs,
+					newPet,
+					vaccinationInput,
+					registerPet,
+					addVaccination,
+					updateHealthCheckDate,
+					checkHealthStatus,
+					formatDate
+				};
+			}
+		}).mount('#app');
+    </script>
+    </body>
+</html>

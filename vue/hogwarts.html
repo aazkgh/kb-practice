@@ -17,10 +17,10 @@
 <body>
     <main id="app">
         <div class="inputs">
-            📝 이름 <input v-model='name' />    
-            📝 나이 <input v-model.number='age' />
-            <button type="button" @click="checkPermission">입학 승인</button>
-            <span>{{permissionResult}}</span>
+            🧙 이름 <input v-model='name' />    
+            🎂 출생 연도 <input v-model.number='birthYear' type="number" />
+            <button type="button">입학 승인</button>
+            <span>{{permission}}</span>
             <div>
                 <button type="button" @click="chooseWand">엘더 지팡이</button>
                 <button type="button" @click="chooseWand">단풍 지팡이</button>
@@ -38,25 +38,32 @@
             data() {
                 return {
                     name: '',
-                    age:0,
-                    permissionResult:'',
+                    birthYear:2000,
                     wand:'',
-                    wandResult:''
+                    wandResult:'',
+                    dormitory:''
+                }
+            },
+            watch: {
+                name(curr) {
+                    if(/^[aeiou]/i.test(curr)){
+                        this.dormitory = '그리핀도르';
+                    } else if(curr.length >= 5){
+                        this.dormitory = '래번클로';
+                    } else if(curr.endsWith('n' || 'ㄴ') ){
+                        this.dormitory = '슬리데린';
+                    } else { this.dormitory = '후플푸프'; }
+                }
+            },
+            computed: {
+                age() {
+                    return new Date().getFullYear() - this.birthYear + 1;
+                },
+                permission(){
+                    return `${this.name} 학생은 ${this.dormitory}에 배정되었습니다. (나이: ${this.age}세)`
                 }
             },
             methods: {
-                checkPermission(){
-                    if(/[0-9]/g.test(this.name)){
-                        this.permissionResult = '🚫 이름에는 숫자를 포함할 수 없습니다.';
-                    } else if(this.name.length < 2){
-                        this.permissionResult = '🚫 이름은 2글자 이상여야 합니다.';
-                    } else if(this.age > 18 || this.age < 11 ){
-                        this.permissionResult = '🚫 나이는 11세 이상 18세 이하여야 합니다.';
-                    } else {
-                        this.permissionResult = `👏 ${this.age}세, ${this.name} 학생의 호그와트 입학을 축하합니다!`;
-                    }
-                },
-
                 chooseWand(e){
                     if(this.wand === e.target.innerText){
                         this.wandResult = `이미 ${this.wand}를 선택했습니다. 다른 지팡이를 선택하세요!`;

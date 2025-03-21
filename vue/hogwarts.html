@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>편지 배달</title>
+    <title>호그와트호기와티</title>
     <style>
         .inputs{
-            width: 50%;
+            width: 60%;
             margin: 2rem;
             display: flex;
             flex-direction: column;
@@ -18,9 +18,16 @@
     <main id="app">
         <div class="inputs">
             📝 이름 <input v-model='name' />    
-            📝 나이 <input v-model='age' />
+            📝 나이 <input v-model.number='age' />
             <button type="button" @click="checkPermission">입학 승인</button>
-            <span>{{result}}</span>
+            <span>{{permissionResult}}</span>
+            <div>
+                <button type="button" @click="chooseWand">엘더 지팡이</button>
+                <button type="button" @click="chooseWand">단풍 지팡이</button>
+                <button type="button" @click="chooseWand">벚나무 지팡이</button>
+                <button type="button" @click="chooseWand">지팡이 초기화</button>
+            </div>
+            <span>{{wandResult}}</span>
         </div>
     </main>
     <script src="https://unpkg.com/vue@3"></script>
@@ -32,19 +39,33 @@
                 return {
                     name: '',
                     age:0,
-                    result:''
+                    permissionResult:'',
+                    wand:'',
+                    wandResult:''
                 }
             },
             methods: {
                 checkPermission(){
                     if(/[0-9]/g.test(this.name)){
-                        this.result = '🚫 이름에는 숫자를 포함할 수 없습니다.'
+                        this.permissionResult = '🚫 이름에는 숫자를 포함할 수 없습니다.';
                     } else if(this.name.length < 2){
-                        this.result = '🚫 이름은 2글자 이상여야 합니다.'
+                        this.permissionResult = '🚫 이름은 2글자 이상여야 합니다.';
                     } else if(this.age > 18 || this.age < 11 ){
-                        this.result = '🚫 나이는 11세 이상 18세 이하여야 합니다.'
+                        this.permissionResult = '🚫 나이는 11세 이상 18세 이하여야 합니다.';
                     } else {
-                        this.result = '👏' + this.age + '세, ' + this.name + ' 학생의 호그와트 입학을 축하합니다!'
+                        this.permissionResult = `👏 ${this.age}세, ${this.name} 학생의 호그와트 입학을 축하합니다!`;
+                    }
+                },
+
+                chooseWand(e){
+                    if(this.wand === e.target.innerText){
+                        this.wandResult = `이미 ${this.wand}를 선택했습니다. 다른 지팡이를 선택하세요!`;
+                    } else if(e.target.innerText === '지팡이 초기화'){
+                        this.wand = '';
+                        this.wandResult = '';
+                    } else {
+                        this.wand = e.target.innerText;
+                        this.wandResult = `당신은 ${this.wand}를 선택했습니다!`;
                     }
                 }
             }

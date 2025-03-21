@@ -28,6 +28,9 @@
                 <button type="button" @click="chooseWand">지팡이 초기화</button>
             </div>
             <span>{{wandResult}}</span>
+            ✨ 마법 주문 <input @keyup.enter="activateSpell" />    
+            <span>{{spellResult}}</span>
+
         </div>
     </main>
     <script src="https://unpkg.com/vue@3"></script>
@@ -41,7 +44,10 @@
                     birthYear:2000,
                     wand:'',
                     wandResult:'',
-                    dormitory:''
+                    dormitory:'',
+                    spell:'',
+                    spellCount: 0,
+                    spellResult: ''
                 }
             },
             watch: {
@@ -61,7 +67,7 @@
                 },
                 permission(){
                     return `${this.name} 학생은 ${this.dormitory}에 배정되었습니다. (나이: ${this.age}세)`
-                }
+                },
             },
             methods: {
                 chooseWand(e){
@@ -73,6 +79,20 @@
                     } else {
                         this.wand = e.target.innerText;
                         this.wandResult = `당신은 ${this.wand}를 선택했습니다!`;
+                    }
+                },
+                activateSpell(e) {
+                    let currSpell = e.target.value;
+                    let count = 0;
+                    
+                    if (currSpell.length < 3) {
+                        this.spellResult = '❌ 올바른 주문을 입력하세요!';
+                    } else if (currSpell === this.spell) {
+                        this.spellResult = '❌ 이미 발사한 주문입니다!';
+                    } else {
+                        this.spell = currSpell;
+                        this.spellCount++;
+                        this.spellResult = `🔮 ${this.spell} 발사! (지금까지 ${this.spellCount}회 발사)`;
                     }
                 }
             }

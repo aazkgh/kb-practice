@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>편지 배달</title>
+    <style>
+        .inputs{
+            width: 50%;
+            margin: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <main id="app">
+        <div class="inputs">
+            📝 이름 <input v-model='name' />    
+            📝 나이 <input v-model='age' />
+            <button type="button" @click="checkPermission">입학 승인</button>
+            <span>{{result}}</span>
+        </div>
+    </main>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    name: '',
+                    age:0,
+                    result:''
+                }
+            },
+            methods: {
+                checkPermission(){
+                    if(/[0-9]/g.test(this.name)){
+                        this.result = '🚫 이름에는 숫자를 포함할 수 없습니다.'
+                    } else if(this.name.length < 2){
+                        this.result = '🚫 이름은 2글자 이상여야 합니다.'
+                    } else if(this.age > 18 || this.age < 11 ){
+                        this.result = '🚫 나이는 11세 이상 18세 이하여야 합니다.'
+                    } else {
+                        this.result = '👏' + this.age + '세, ' + this.name + ' 학생의 호그와트 입학을 축하합니다!'
+                    }
+                }
+            }
+		}).mount('#app');
+    </script>
+    </body>
+</html>

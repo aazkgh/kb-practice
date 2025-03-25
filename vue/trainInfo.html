@@ -26,7 +26,6 @@
 
         .info {
             min-width: 12rem;
-            max-width: 18rem;
 
             flex: 1;
             display: flex;
@@ -92,6 +91,21 @@
             <span v-if="delayShow" :class="success ? 'text-success' : 'text-danger'">
                 <b>{{ success ? '열차가 출발했습니다🚄' : '열차 지연! 5분 기다려주세요⏳'}}</b>
             </span>
+        </div>
+        <div class="info">
+            <button type="button" @click="nameShow = true" class="btn btn-info">
+                <i class="fa-solid fa-circle-play"></i> 열차 이름 생성
+            </button>
+            출발역 <input v-model='stationName[0]' placeholder="출발역 입력" />
+            도착역 <input v-model='stationName[1]' placeholder="도착역 입력" />
+            <div v-if="nameShow">
+                <div v-if="stationName[0] && stationName[1]" class="alert alert-info">
+                    [ {{stationName[0]}} → {{stationName[1]}} ] 초특급 열차
+                </div>
+                <div v-else>
+                    역 이름을 입력해주세요!
+                </div>
+            </div>        
         </div>                
     </main>
     <script src="https://unpkg.com/vue@3"></script>    
@@ -105,6 +119,8 @@
                     countdown: 0,
                     success: false,
                     delayShow: false,
+                    stationName: ['',''],
+                    nameShow: false
                 }
             },
             methods: {
@@ -130,6 +146,15 @@
                             this.delayShow = true;
                         }
                     }, 1000);
+                }
+            },
+            //상태 변화 감지 - 자동 실행
+            watch: {
+                stationName: {
+                    handler() {
+                        this.nameShow = false;
+                    },
+                    deep: true
                 }
             },
             mounted() {

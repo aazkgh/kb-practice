@@ -99,10 +99,10 @@
             출발역 <input v-model='stationName[0]' placeholder="출발역 입력" />
             도착역 <input v-model='stationName[1]' placeholder="도착역 입력" />
             <div v-if="nameShow">
-                <div v-if="stationName[0] && stationName[1]" class="alert alert-info">
+                <div v-if="stationName[0] && stationName[1]" class="alert alert-success">
                     [ {{stationName[0]}} → {{stationName[1]}} ] 초특급 열차
                 </div>
-                <div v-else>
+                <div v-else class="alert alert-danger">
                     역 이름을 입력해주세요!
                 </div>
             </div>        

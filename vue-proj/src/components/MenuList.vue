@@ -1,11 +1,11 @@
 <template>
-  <main>
+  <section>
     <h2>메뉴 선택</h2>
     <button v-for="menu in menus" type="button" 
       class="menuTag"  @click="$emit('select-drink', menu.name)">
       {{ menu.name }} ({{ menu.price }}원)
     </button>
-  </main>
+  </section>
 </template>
 <script setup lang="ts">
 defineProps<{

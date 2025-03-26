@@ -1,12 +1,14 @@
 <template>
-  <section>
+  <main>
     <MenuList :menus=menuList @select-drink="handleSelectDrink" />
     <div v-if="selectedDrink" class="selected">
       <h4>선택한 음료: {{ selectedDrink }}</h4>
     </div>
-  </section>
+    <DrinkOptions :selectedDrink />
+  </main>
 </template>
 <script lang="ts">
+import DrinkOptions from './components/DrinkOptions.vue';
 import MenuList from './components/MenuList.vue';
 
 export default {

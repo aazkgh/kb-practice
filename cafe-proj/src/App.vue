@@ -13,7 +13,11 @@
     </div>
     <OrderSummary v-if="selectedDrink && selectedOptions.size && selectedOptions.ice"
       :selectedMenu :selectedOptions @place-order="handlePlaceOrder"/>
-    <OrderHistory :orders />  
+    <OrderHistory :orders />
+    <button type="button" id="staticBtn" v-show="orders.length > 0" @click="staticsOpen = !staticsOpen">
+      {{ staticsOpen ? '통계 숨기기' : '통계 보기' }}
+    </button>
+    <Statics :orders="orders" v-if="staticsOpen" />  
   </main>
 </template>
 <script lang="ts">
@@ -22,6 +26,7 @@ import MenuList from './components/MenuList.vue';
 import type { OrderType } from './components/OrderHistory.vue';
 import OrderHistory from './components/OrderHistory.vue';
 import OrderSummary from './components/OrderSummary.vue';
+import Statics from './components/Statics.vue';
 
 export default {
   name: 'App',
@@ -35,14 +40,16 @@ export default {
       ],
       selectedDrink: '',
       selectedOptions: <DrinkOptionType>{},
-      orders: <OrderType[]>[]
+      orders: <OrderType[]>[],
+      staticsOpen: false
     }
   },
   components: {
     MenuList,
     DrinkOptions,
     OrderSummary,
-    OrderHistory
+    OrderHistory,
+    Statics
   },
   computed: {
   selectedMenu() {
@@ -95,5 +102,19 @@ export default {
     padding: 1rem;
     border: 1px solid #ddd;
     background-color: #f7f7f7;
+  }
+  #staticBtn {
+    padding: 1rem 2rem;
+
+    background-color: #8fbc8f;
+    color: white;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+
+
+    &:hover {
+      background-color: #78a678;
+    }
   }
 </style>

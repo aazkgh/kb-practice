@@ -60,6 +60,5 @@ const emitOptions = () => {
         gap: 1.2rem;
 
         background-color: lavenderblush;
-
     }
 </style>

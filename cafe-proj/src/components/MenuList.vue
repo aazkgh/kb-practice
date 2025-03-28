@@ -8,8 +8,13 @@
   </section>
 </template>
 <script setup lang="ts">
+export interface MenuProps {
+  name: string,
+  price: number
+}
+
 defineProps<{
-  menus: Array<{ name: string; price: number }>
+  menus: Array<MenuProps>
 }>()
 </script>
 <style scoped>

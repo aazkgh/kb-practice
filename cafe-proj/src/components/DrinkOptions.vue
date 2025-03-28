@@ -14,7 +14,7 @@
             얼음 양: 
             <select v-model="drinkOptions.ice" @change="emitOptions">
                 <option value="less">적게</option>
-                <option value="normal" selected>보통</option>
+                <option value="normal">보통</option>
                 <option value="more">많이</option>
             </select>
         </div>

@@ -11,12 +11,14 @@
         <br /> 추가샷: {{ selectedOptions.extraShot ? '있음' : '없음' }}
         <br /> 얼음 양: {{ selectedOptions.ice }}
     </div>
-
+    <OrderSummary v-if="selectedDrink && selectedOptions.size && selectedOptions.ice"
+      :selectedMenu :selectedOptions @place-order="handleConfirm"/>
   </main>
 </template>
 <script lang="ts">
 import DrinkOptions, { type DrinkOptionType } from './components/DrinkOptions.vue';
 import MenuList from './components/MenuList.vue';
+import OrderSummary from './components/OrderSummary.vue';
 
 export default {
   name: 'App',
@@ -29,19 +31,35 @@ export default {
         { name: "콜드브루", price: 5000 }
       ],
       selectedDrink: '',
-      selectedOptions: <DrinkOptionType>({})
+      selectedOptions: <DrinkOptionType>{}
     }
   },
   components: {
     MenuList,
-    DrinkOptions
+    DrinkOptions,
+    OrderSummary
+  },
+  computed: {
+  selectedMenu() {
+      return this.menuList.find(menu => menu.name === this.selectedDrink) || {name: '', price: 0};
+    }
   },
   methods: {
     handleSelectDrink(drinkName : string) {
       this.selectedDrink = drinkName;
     },
-    handleOptionChange(options: DrinkOptionType){
+    handleOptionChange(options : DrinkOptionType){
       this.selectedOptions = options;
+    },
+    handleConfirm(confirmed : boolean){
+      if(confirmed){
+        alert(`${this.selectedDrink} 주문이 완료되었습니다.`)
+        this.selectedDrink = '';
+        this.selectedOptions = { 
+          size: '',
+          extraShot: false,
+          ice: 'normal'}
+      }
     }
   },
 }

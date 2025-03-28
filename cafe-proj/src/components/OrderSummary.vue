@@ -29,14 +29,14 @@ const currTime = computed(() => {
     return `${date.getFullYear()}. ${date.getMonth()}. ${date.getDate()}. ${hour}:${date.getMinutes()}:${date.getSeconds()}`
 });
 
-//emit 정의
+//emit 정의: emit('이벤트명', 전달할 데이터)
 const confirmEmits = defineEmits<{
-    (e: 'place-order', confirmed: boolean) : void
+    (e: 'place-order', confirmed: boolean, time: string) : void
 }>();
 
 //event 감지
 const emitConfirm = () => {
-    confirmEmits('place-order', true);
+    confirmEmits('place-order', true, currTime.value);
 };
 </script>
 <style scoped>

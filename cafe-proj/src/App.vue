@@ -12,12 +12,15 @@
         <br /> 얼음 양: {{ selectedOptions.ice }}
     </div>
     <OrderSummary v-if="selectedDrink && selectedOptions.size && selectedOptions.ice"
-      :selectedMenu :selectedOptions @place-order="handleConfirm"/>
+      :selectedMenu :selectedOptions @place-order="handlePlaceOrder"/>
+    <OrderHistory :orders />  
   </main>
 </template>
 <script lang="ts">
 import DrinkOptions, { type DrinkOptionType } from './components/DrinkOptions.vue';
 import MenuList from './components/MenuList.vue';
+import type { OrderType } from './components/OrderHistory.vue';
+import OrderHistory from './components/OrderHistory.vue';
 import OrderSummary from './components/OrderSummary.vue';
 
 export default {
@@ -31,13 +34,15 @@ export default {
         { name: "콜드브루", price: 5000 }
       ],
       selectedDrink: '',
-      selectedOptions: <DrinkOptionType>{}
+      selectedOptions: <DrinkOptionType>{},
+      orders: <OrderType[]>[]
     }
   },
   components: {
     MenuList,
     DrinkOptions,
-    OrderSummary
+    OrderSummary,
+    OrderHistory
   },
   computed: {
   selectedMenu() {
@@ -51,9 +56,20 @@ export default {
     handleOptionChange(options : DrinkOptionType){
       this.selectedOptions = options;
     },
-    handleConfirm(confirmed : boolean){
+    handlePlaceOrder(confirmed : boolean, time: string){
       if(confirmed){
         alert(`${this.selectedDrink} 주문이 완료되었습니다.`)
+        const data = <OrderType>{
+          time,
+          drinkName: this.selectedMenu.name,
+          size: this.selectedOptions.size,
+          extraShot: this.selectedOptions.extraShot,
+          ice: this.selectedOptions.ice,
+          price: this.selectedMenu.price,
+        }
+
+        this.orders.push(data);
+
         this.selectedDrink = '';
         this.selectedOptions = { 
           size: '',
@@ -64,9 +80,13 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style>
+  * {
+    list-style: none;
+  }
   body {
     margin: 0;
+    padding: 2rem;
     background-color: white;
     color: black;
   }

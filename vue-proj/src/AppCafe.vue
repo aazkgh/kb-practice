@@ -21,15 +21,15 @@
   </main>
 </template>
 <script lang="ts">
-import DrinkOptions, { type DrinkOptionType } from './components/DrinkOptions.vue';
-import MenuList from './components/MenuList.vue';
-import type { OrderType } from './components/OrderHistory.vue';
-import OrderHistory from './components/OrderHistory.vue';
-import OrderSummary from './components/OrderSummary.vue';
-import Statics from './components/Statics.vue';
+import DrinkOptions, { type DrinkOptionType } from './cafe-components/DrinkOptions.vue';
+import MenuList from './cafe-components/MenuList.vue';
+import type { OrderType } from './cafe-components/OrderHistory.vue';
+import OrderHistory from './cafe-components/OrderHistory.vue';
+import OrderSummary from './cafe-components/OrderSummary.vue';
+import Statics from './cafe-components/Statics.vue';
 
 export default {
-  name: 'App',
+  name: 'AppCafe',
   data() {
     return {
       menuList : [

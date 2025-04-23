@@ -27,6 +27,7 @@ public class KakaoPay implements Payment{
             return false;
         } else {
             balance += amount;
+            Payment.log("결제 수단: 카카오페이, 금액: " + amount + "원");
             System.out.println("[카카오페이] " + amount + "원 결제 성공");
             return true;
         }

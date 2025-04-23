@@ -6,6 +6,7 @@ public class CreditCard implements Payment {
     @Override
     public boolean pay(int amount) {
         balance += amount;
+        Payment.log("결제 수단: 신용카드, 금액: " + amount + "원");
         System.out.println("[신용카드] " + amount + "원 결제 완료");
         return true;
     }

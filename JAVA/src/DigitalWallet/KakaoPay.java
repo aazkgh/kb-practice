@@ -4,12 +4,14 @@ public class KakaoPay implements Payment{
     int balance = 0;
 
     @Override
-    public void pay(int amount) {
+    public boolean pay(int amount) {
         if (amount < 5000) {
             System.out.println("[카카오페이] 결제 실패: 최소 결제 금액은 5000원입니다.");
+            return false;
         } else {
             balance += amount;
             System.out.println("[카카오페이] " + amount + "원 결제 성공");
+            return true;
         }
     }
 
@@ -21,5 +23,9 @@ public class KakaoPay implements Payment{
     @Override
     public void cancel(String reason) {
         System.out.println("[카카오페이] 결제 취소됨 - 사유: " + reason);
+    }
+
+    public void sendNotification() {
+        System.out.println("[카카오페이] 결제 알림이 전송되었습니다!");
     }
 }

@@ -4,9 +4,10 @@ public class CreditCard implements Payment {
     int balance = 0;
 
     @Override
-    public void pay(int amount) {
+    public boolean pay(int amount) {
         balance += amount;
         System.out.println("[신용카드] " + amount + "원 결제 완료");
+        return true;
     }
 
     @Override

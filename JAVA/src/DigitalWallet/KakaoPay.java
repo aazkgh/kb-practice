@@ -2,6 +2,23 @@ package DigitalWallet;
 
 public class KakaoPay implements Payment{
     int balance = 0;
+    boolean isAuthenticated = false;
+
+    public void authenticate() {
+        isAuthenticated = true;
+        System.out.println("[카카오페이] 사용자 인증 완료!");
+    }
+
+    @Override
+    public boolean beforePay() {
+        if (isAuthenticated) {
+            System.out.println("[카카오페이] 결제를 준비합니다...");
+            return true;
+        } else {
+            System.out.println("[카카오페이] 인증되지 않아 결제를 진행할 수 없습니다.");
+            return false;
+        }
+    }
 
     @Override
     public boolean pay(int amount) {

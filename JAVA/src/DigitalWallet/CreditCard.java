@@ -1,6 +1,6 @@
 package DigitalWallet;
 
-public class CreditCard implements Payment{
+public class CreditCard implements Payment {
     int balance = 0;
 
     @Override

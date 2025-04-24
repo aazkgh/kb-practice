@@ -12,6 +12,16 @@ public class PlayerSettings {
             System.out.println("- Repeat: " + (repeat ? "ON" : "OFF"));
             System.out.println("- Volume: " + volumeLevel);
         }
+        public static boolean isShuffle() {
+            return shuffle;
+        }
+        public static boolean isRepeat() {
+            return repeat;
+        }
+        public static int getVolume() {
+            return volumeLevel;
+        }
+
         public static void setShuffle(boolean value) {
             shuffle = !shuffle;
             System.out.println("Shuffle 모드가 " + (shuffle ? "ON" : "OFF") + "로 설정되었습니다.");

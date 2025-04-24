@@ -2,11 +2,10 @@ package MyGroove;
 
 public class Main {
     public static void main(String[] args) {
-        PlayerSettings.Mode.printSettings();
-        PlayerSettings.Mode.setShuffle(true);
-        PlayerSettings.Mode.setRepeat(false);
-        PlayerSettings.Mode.setVolumeLevel(11);
-        PlayerSettings.Mode.setVolumeLevel(7);
-        PlayerSettings.Mode.printSettings();
+        PlaybackLogger logger = new PlaybackLogger();
+
+        logger.log("사건의 지평선", "윤하");
+        logger.log("오늘만 I LOVE YOU", "BOYNEXTDOOR");
+        logger.log("Ditto", "NewJeans");
     }
 }
